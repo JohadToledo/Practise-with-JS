@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="calc.js"></script>
+
+
+</head>
+<body>
+    <div class="container text-center">
+        <div class="calc-container">
+            <div class="row">
+                <form name="calc">
+                    <input type="text" id="entry" class="entry text-rigth" value="0" readonly>
+                </form>
+            </div>
+            <div class="row">
+                <button id="numBut" type="button" class="btn btn-primary numBut" onclick="numButPress(7)">7</button>
+                <button id="numBut" type="button" class="btn btn-primary numBut" onclick="numButPress(8)">8</button>
+                <button id="numBut" type="button" class="btn btn-primary numBut" onclick="numButPress(9)">9</button>
+                <button id="mathBut" type="button" class="btn btn-success mathBut" onclick="mathButPress('+')">+</button>
+            </div>
+            <div class="row">
+                <button id="numBut" type="button" class="btn btn-primary numBut" onclick="numButPress(4)">4</button>
+                <button id="numBut" type="button" class="btn btn-primary numBut" onclick="numButPress(5)">5</button>
+                <button id="numBut" type="button" class="btn btn-primary numBut" onclick="numButPress(6)">6</button>
+                <button id="mathBut" type="button" class="btn btn-success mathBut" onclick="mathButPress('-')">-</button>
+            </div>
+            <div class="row">
+                <button id="numBut" type="button" class="btn btn-primary numBut" onclick="numButPress(1)">1</button>
+                <button id="numBut" type="button" class="btn btn-primary numBut" onclick="numButPress(2)">2</button>
+                <button id="numBut" type="button" class="btn btn-primary numBut" onclick="numButPress(3)">3</button>
+                <button id="mathBut" type="button" class="btn btn-success mathBut" onclick="mathButPress('*')">*</button>
+            </div>
+            <div class="row">
+                <button id="clearBut" type="button" class="btn btn-danger numBut" onclick="clearButPress()">AC</button>
+                <button id="numBut" type="button" class="btn btn-primary numBut" onclick="numButPress(0)">0</button>
+                <button id="numBut" type="button" class="btn btn-primary numBut" onclick="numButPress('.')">.</button>
+                <button id="mathBut" type="button" class="btn btn-success mathBut" onclick="mathButPress('/')">/</button>
+            </div>
+            <div class="row">
+                <button id="addMemBut" type="button" class="btn btn-warning numBut" onclick="copyButPress()">MC</button>
+                <button id="pasteMemBut" type="button" class="btn btn-warning numBut" onclick="pasteButPress()">MP</button>
+                <button id="equalBut" type="button" class="btn btn-info equalBut" onclick="equalButPress()">=</button>
+                
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>

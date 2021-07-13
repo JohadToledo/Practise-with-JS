@@ -1,0 +1,9 @@
+body{
+    background: #666;
+    text-align: center;
+    margin: 60px 0 0 0 ;
+}
+canvas{
+    border: solid 6px white;
+    background: cornflowerblue;
+    }

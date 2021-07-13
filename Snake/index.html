@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="CSS\style.css">
+</head>
+<body>
+    <canvas width="500" height="500"></canvas>
+    <script>
+        //loop interval of time 
+        const INTERVAL = 80
+        //cont ten 
+        const TEN = 10
+        //canvas' size
+        const WH = 500
+        //direction's config
+        const DIRECTION = {
+            ArrowDown : [0, 1],
+            ArrowUp : [0, -1],
+            ArrowRight : [1, 0],
+            ArrowLeft : [-1, 0],
+            S : [0, 1],
+            W : [0, -1],
+            D : [1, 0],
+            A : [-1, 0],
+            s : [0, 1],
+            w : [0, -1],
+            d : [1, 0],
+            a : [-1, 0],
+        }
+        //control and setting of snake
+        let control = {direction:{x:1, y:0}, snake:[{x:0, y:0}], victim:{x:0, y:0}}
+        //direcion variable's name
+        let towhere
+        //to refer canvas with JS 
+        let paper = document.querySelector('canvas')
+        //to refer canvas's context
+        let ctx = paper.getContext('2d')
+        
+        let looper = ()=>{
+            //to refer the snake's head
+            const hd = control.snake[0]
+            //to refer the current direction
+            let dx = control.direction.x
+            let dy = control.direction.y
+            //adding direccion to position
+            hd.x += dx
+            hd.y += dy
+            //call to animation for draw
+            requestAnimationFrame(draw)
+            //call to the function looper in x interval of time
+            setTimeout(looper, INTERVAL)
+        }
+        document.onkeydown = (e) =>{
+            //save in 'towhre' the new direction
+            towhere = DIRECTION[e.key]
+            //deconstruct x and y from 'towhere'
+            const [x, y] = towhere
+            //to valid that the snake can't turn its direction 180º 
+            if(-x !== control.direction.x && -y !== control.direction.y){
+                //to asing the directions to controls
+                control.direction.x = x
+                control.direction.y = y
+            }
+        }
+        let draw = (color)=>{
+            //clrear the whole canvas 
+            ctx.clearRect(0,0,WH,WH)
+            //to define a draw's color
+            ctx.fillStyle = 'green'
+            //instance the snake's head
+            const hd = control.snake[0]
+            //to create a rectangle (position X, position Y, Width, Heigth) 
+            ctx.fillRect(hd.x*TEN, hd.y*TEN, TEN, TEN)
+        }
+        //when the document load call the looper function 
+        window.onload = ()=>{
+            looper()
+        }
+        //function to put the snake and victim in a random place
+        let anyWhere = ()=>{
+            return{
+                x = parseInt(Math.random()*WH),
+                y = parseInt(Math.random()*WH)
+            }
+        }
+    </script>
+</body>
+</html>
