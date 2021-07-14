@@ -32,7 +32,13 @@
             a : [-1, 0],
         }
         //control and setting of snake
-        let control = {direction:{x:1, y:0}, snake:[{x:0, y:0}], victim:{x:0, y:0}}
+        let control = {
+            direction:{x:1, y:0},
+            snake:[{x:0, y:0}], 
+            target:{x:0, y:0},
+            playing: false,
+            growing: 0
+        }
         //direcion variable's name
         let towhere
         //to refer canvas with JS 
@@ -41,18 +47,79 @@
         let ctx = paper.getContext('2d')
         
         let looper = ()=>{
-            //to refer the snake's head
+            //create an empty onject of tail
+            let tail = {}
+            //clone the last position of snake in tail
+            Object.assign(tail, control.snake[control.snake.length-1])
+            //instance the snake's head
             const hd = control.snake[0]
-            //to refer the current direction
+            //verify that snake catch a targer
+            let catched = hd.x === control.target.x && hd.y === control.target.y
+            //detect if in this frame in this loop's cicle there is a crash
+            if(detectCrash()){
+                //if there is: put the game in false
+                control.playing = false
+                //call the restart function that restart parameters
+                restrat()
+            }
+            //to refer the current location
             let dx = control.direction.x
             let dy = control.direction.y
-            //adding direccion to position
-            hd.x += dx
-            hd.y += dy
+            //save the size of the snake
+            let size = control.snake.length -1
+            //ask if the game is running
+            if(control.playing){
+                //make a for from back to forward of snake 
+                for(let idx = size; idx> -1; idx--){
+                    //to refer the actual part of snake
+                    const hd = control.snake[idx]
+                    //ask if this is the snake's head
+                    if(idx===0){
+                        //if it is, go to the new direction thats because the '+='
+                        hd.x += dx
+                        hd.y += dy
+                    }else{
+                        //if is not the snake's head, assing the previous part's position
+                        hd.x = control.snake[idx-1].x
+                        hd.y = control.snake[idx-1].y
+                    }
+                }
+            }
+            //verify if the snake's head catch some target
+            if (catched){
+                //if the snake catch a target, it has to grow 10 
+                control.growing += 10
+                //call newTarget that create a new target with another posotion
+                newTarget()
+            }
+            //ask if the snake hace to grow 
+            if(control.growing>0){
+                //add to snake the tail's clone that was created previously
+                control.snake.push(tail)
+                control.growing -= 1    
+            }
             //call to animation for draw
             requestAnimationFrame(draw)
             //call to the function looper in x interval of time
             setTimeout(looper, INTERVAL)
+        }
+        //detect the crash with wall and itself
+        let detectCrash =()=>{
+            //instance snake's head 
+            const head = control.snake[0]
+            //ask if the snake crash the wall or get away from that 
+            if(head.x < 0 || head.x >= WH/TEN || head.y < 0 || head.y >= WH/TEN){
+                //if a crash happen, give true 
+                return true
+            }
+            //detect if crash itself
+            for(let idx=1; idx < control.snake.length; idx++){
+                //instance the snake's head 
+                const hd = control.snake[idx]
+                if(hd.x === head.x && hd.y === head.y){
+                    return true
+                }
+            }
         }
         document.onkeydown = (e) =>{
             //save in 'towhre' the new direction
@@ -69,23 +136,66 @@
         let draw = (color)=>{
             //clrear the whole canvas 
             ctx.clearRect(0,0,WH,WH)
+            //go across the whole snake 
+            for(idx=0; idx<control.snake.length; idx++){
+                const {x, y} = control.snake[idx];
+                drawing('green', x, y)
+            }
+            //call to draw a new target 
+            const target = control.target
+            drawing('white', target.x, target.y)
+            
+        }
+        //draw the snake's body
+        let drawing = (color, x, y)=>{
             //to define a draw's color
-            ctx.fillStyle = 'green'
-            //instance the snake's head
-            const hd = control.snake[0]
+            ctx.fillStyle = color
             //to create a rectangle (position X, position Y, Width, Heigth) 
-            ctx.fillRect(hd.x*TEN, hd.y*TEN, TEN, TEN)
+            ctx.fillRect(x*TEN, y*TEN, TEN, TEN)
+        }
+        
+        //function to put the snake and victim in a random places
+        let anyWhere = ()=>{
+            let direct = Object.values(DIRECTION)
+            return{
+                x : parseInt(Math.random()*WH/TEN),
+                y : parseInt(Math.random()*WH/TEN),
+                d : direct[parseInt(Math.random()*11)]
+            }
+        }
+        //assing a new position to target when it fed 
+        let newTarget =()=>{
+            let newPosition = anyWhere()
+            let target = control.target
+            target.x = newPosition.x
+            target.y = newPosition.y 
+        }
+        //reestart the game and its values to cero
+        let restrat = ()=>{
+            control = {
+            direction:{x:1, y:0},
+            snake:[{x:0, y:0}], 
+            target:{x:0, y:0},
+            playing: false,
+            growing: 0
+            }
+            position= anyWhere()
+            let head = control.snake[0]
+            head.x = position.x
+            head.y = position.y
+            control.direction.x = position.d[0]
+            control.direction.y = position.d[1]
+            //random target position
+            targetPosition = anyWhere()
+            let target = control.target
+            target.x = targetPosition.x
+            target.y = targetPosition.y
+            control.playing = true
         }
         //when the document load call the looper function 
         window.onload = ()=>{
+            restrat()
             looper()
-        }
-        //function to put the snake and victim in a random place
-        let anyWhere = ()=>{
-            return{
-                x = parseInt(Math.random()*WH),
-                y = parseInt(Math.random()*WH)
-            }
         }
     </script>
 </body>
