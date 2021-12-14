@@ -1,2 +1,2 @@
-# JSPractice
- In this place is where are going to be my diferent practise with JS
+# rest-express-nodejs-simple
+Servidor REST simple corriendo NodeJs para curso de Codealo
